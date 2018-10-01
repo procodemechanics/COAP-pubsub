@@ -3,7 +3,8 @@ import sys
 import subprocess
 import numpy as np
 """Compute the average rtt over the n mqtt messages sent n being the first parameter when launching;
-!!! Must be launched as sudo !!!"""
+!!! Must be launched as sudo !!!
+tshark, tcpdump, mosquitto_pub need to be installed"""
 
 #Snif on port 1883 corresponding to mqtt port
 process = subprocess.Popen(["tcpdump -i lo -w results.pcap 'port 1883'"], shell=True)
