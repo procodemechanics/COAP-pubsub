@@ -22,3 +22,15 @@ CoAP takes the advantages of simplicity of UDP but lacks the pub-sub model of MQ
 2. Evaluate CoAP pubsub protocol and compare its performance with MQTT and CoAP.
 3. Improve an existing CoAP pubsub broker implementation from KTH to make it more robust suitable for real-world deployment.
 
+## **Design setup**
+
+1. M2M
+2. Sensor node
+
+## **Evaluation Metrics**
+
+1. RTT(CON-ACK, PUBLISH-PUBACK)
+2. Packet overhead - Protocol efficiency(data bytes/(control + data bytes))
+3. Packet loss
+
+
