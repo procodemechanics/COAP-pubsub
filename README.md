@@ -24,7 +24,7 @@ CoAP takes the advantages of simplicity of UDP but lacks the pub-sub model of MQ
 
 ## **Design setup**
 
-1. M2M
+1. Machine-to-Machine (M2M)
 2. Sensor node
 
 ## **Evaluation Metrics**
