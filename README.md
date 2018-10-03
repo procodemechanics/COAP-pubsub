@@ -2,7 +2,7 @@
 # Project 
 # Evaluation of Application Level IoT Protocols
 
-## **By** 
+## **Group members** 
 
 Aman Kumar Gulia: gulia@kth.se 
 
