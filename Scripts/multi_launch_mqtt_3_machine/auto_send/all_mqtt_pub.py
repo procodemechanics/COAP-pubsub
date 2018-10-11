@@ -3,11 +3,17 @@
 import os
 import sys
 import subprocess
+import random, string
 
 def send(num,qos,ip,port, topic, message="message index..."):
 #Create a subprocess to publish mqtt messages
 	for i in range(int(num)):
 		os.system('mosquitto_pub -h '+ip+' -p '+port+' -m "'+message+'" -t '+topic+' -q '+qos+' -d')
+
+def get_random_string(length):
+	letters = string.ascii_lowercase
+	return ''.join(random.choice(letters) for i in range(length))
+	
 #####input#######
 num = sys.argv[1]
 qos = sys.argv[2]
@@ -18,16 +24,17 @@ ip = sys.argv[3]
 port = sys.argv[4]
 topic = sys.argv[5]
 iface = sys.argv[6]
+length = sys.argv[7]
 ###################
 ####tcpdump########
-if len(sys.argv) == 7:
-    process = subprocess.Popen("sudo tcpdump -i "+iface+" -w "+sys.argv[7]+" 'port "+port+"'", shell=True)
-elif len(sys.argv) == 6:
+if len(sys.argv) == 8:
+    process = subprocess.Popen("sudo tcpdump -i "+iface+" -w "+sys.argv[8]+" 'port "+port+"'", shell=True)
+elif len(sys.argv) == 7:
 	process = subprocess.Popen("sudo tcpdump -i "+iface+" -w result.pcap 'port "+port+"'", shell=True)
 else:
 	print("Num_Message QoS broker_ip port topic iface")
 ## start sending mqtt_pub##
-send(num,qos,ip,port,topic)
+send(num, qos, ip, port, topic, get_random_string(length))
 
 ##terminate tcpdump ##
 process.terminate()
