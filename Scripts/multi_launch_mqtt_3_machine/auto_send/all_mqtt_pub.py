@@ -4,14 +4,14 @@ import os
 import sys
 import subprocess
 
-def send(num,qos,ip,port, topic):
+def send(num,qos,ip,port, topic, message="message index..."):
 #Create a subprocess to publish mqtt messages
 	for i in range(int(num)):
-		os.system('mosquitto_pub -h '+ip+' -p '+port+' -m "message index ..." -t '+topic+' -q '+qos+' -d')
+		os.system('mosquitto_pub -h '+ip+' -p '+port+' -m "'+message+'" -t '+topic+' -q '+qos+' -d')
 #####input#######
 num = sys.argv[1]
 qos = sys.argv[2]
-if int(qos) > 2:
+if int(qos) not in [0, 1, 2]:
 	print ("Error: QoS [0 1 2]")
 	exit()
 ip = sys.argv[3]
@@ -20,10 +20,12 @@ topic = sys.argv[5]
 iface = sys.argv[6]
 ###################
 ####tcpdump########
-if len(sys.argv) > 7:
-	process = subprocess.Popen("sudo tcpdump -i "+iface+" -w "+sys.argv[7]+" 'port "+port+"'", shell=True)
-else:
+if len(sys.argv) == 7:
+    process = subprocess.Popen("sudo tcpdump -i "+iface+" -w "+sys.argv[7]+" 'port "+port+"'", shell=True)
+elif len(sys.argv) == 6:
 	process = subprocess.Popen("sudo tcpdump -i "+iface+" -w result.pcap 'port "+port+"'", shell=True)
+else:
+	print("Num_Message QoS broker_ip port topic iface")
 ## start sending mqtt_pub##
 send(num,qos,ip,port,topic)
 
