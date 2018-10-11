@@ -27,10 +27,12 @@ iface = sys.argv[6]
 length = int(sys.argv[7])
 ###################
 ####tcpdump########
+
+
 if len(sys.argv) == 9:
-    process = subprocess.Popen("sudo tcpdump -i "+iface+" -w "+sys.argv[8]+" 'port "+port+"'", shell=True)
+    process = subprocess.Popen("sudo tshark -i "+iface+" -w "+sys.argv[8]+" -j 'mqtt' -P -T text -Y 'mqtt.msgtype == 1 or mqtt.msgtype == 2'", shell=True)
 elif len(sys.argv) == 8:
-	process = subprocess.Popen("sudo tcpdump -i "+iface+" -w result.pcap 'port "+port+"'", shell=True)
+	process = subprocess.Popen("sudo tshark -i "+iface+" -w result.pcap -j 'mqtt' -P -T text -Y 'mqtt.msgtype == 1 or mqtt.msgtype == 2'", shell=True)
 else:
 	print("Num_Message QoS broker_ip port topic iface")
 ## start sending mqtt_pub##
