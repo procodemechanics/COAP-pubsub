@@ -4,6 +4,7 @@ import os
 import sys
 import subprocess
 import random, string
+import time
 import numpy as np
 
 def send(num,qos,ip,port, topic, message="message index...", fileName=None):
@@ -16,9 +17,8 @@ def get_random_string(length):
 	return ''.join(random.choice(letters) for i in range(length))
 
 def sender_function(num, qos, topic, iface, length, port="27000", ip="192.168.1.2", fileName="result.pcap"):
-
 	####tcpdump########
-    proc1 = subprocess.Popen("sudo tshark -i "+iface+" -w "+fileName+" -j 'mqtt' -P -T text -Y 'mqtt.msgtype == 1 or mqtt.msgtype == 2'", shell=True)		
+    proc1 = subprocess.Popen("sudo tshark -i "+iface+"  -g -j 'mqtt' -P > result.pcap ", shell=True)
 
 	## start sending mqtt_pub##
     send(num, qos, ip, port, topic, get_random_string(length))
@@ -27,10 +27,7 @@ def sender_function(num, qos, topic, iface, length, port="27000", ip="192.168.1.
     proc1.terminate()
 
     if len(sys.argv)==9:
-        output = subprocess.Popen("tshark -r "+sys.argv[8]+" -j 'mqtt' -P -T text -Y 'mqtt.msgtype == 1 or mqtt.msgtype == 2 or mqtt.msgtype == 3 or mqtt.msgtype==4 or mqtt.msgtype==5 or mqtt.msgtype==6 or mqtt.msgtype==7'| awk '{print $2}' > filtered_packets",stdout=subprocess.PIPE,shell=True)
-    elif len(sys.argv) == 8:
-        output = subprocess.Popen("tshark -r result.pcap -j 'mqtt' -P -T text -Y 'mqtt.msgtype == 1 or mqtt.msgtype == 2 or mqtt.msgtype == 3 or mqtt.msgtype==4 or mqtt.msgtype==5 or mqtt.msgtype==6 or mqtt.msgtype==7'| awk '{print $2}' > filtered_packets",stdout=subprocess.PIPE,shell=True)
-
+        output = subprocess.Popen("tshark -r "+fileName+" -j 'mqtt' -P -T text -Y 'mqtt.msgtype == 1 or mqtt.msgtype == 2 or mqtt.msgtype == 3 or mqtt.msgtype==4 or mqtt.msgtype==5 or mqtt.msgtype==6 or mqtt.msgtype==7'| awk '{print $2}' > filtered_packets",stdout=subprocess.PIPE,shell=True)
     #print (output.communicate()) #prints mqtt messages on the output terminal
     file_tmp = open('filtered_packets', "r+")
     i=0
