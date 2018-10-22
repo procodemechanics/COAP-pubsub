@@ -7,15 +7,19 @@ import random, string
 import time
 import numpy as np
 
-def send(num, qos,ip, port, topic, message="message index...", fileName=None):
+def send(num, qos, ip, port, topic, message="message index...", fileName=None):
 	#Create a subprocess to publish mqtt messages
-	pid_array = []
-	for i in range(int(num)):
-		proc = subprocess.Popen('mosquitto_pub -d -h '+ip+' -p '+port+' -m '+message+' -t '+topic+' -q '+qos, shell=True)
-		pid_array.append(proc.pid)
+    process_array = []
+    for i in range(int(num)):
+        str_mqtt = 'mosquitto_pub -d -h '+ip+' -p '+port+' -m '+message+' -t '+topic+' -q '+qos
+        print(str_mqtt)
+        proc = subprocess.Popen(str_mqtt, shell=True)
+        process_array.append(proc)
 
-	for i in pid_array:
-		os.waitpid(i, 0)
+    for p in process_array:
+        if p.poll == None:
+            continue
+        os.waitpid(p.pid, 0)
 
 def get_random_string(length):
 	letters = string.ascii_lowercase
