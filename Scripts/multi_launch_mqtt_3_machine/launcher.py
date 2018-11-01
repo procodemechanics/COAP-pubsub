@@ -44,7 +44,8 @@ if sys.argv[1] == "send-and-print":
     file_res = open(sys.argv[11], "a+")
     packet_loss = sys.argv[9]
     delay = sys.argv[10]
-    print('\n\n\n //////LOSS : '+str(packet_loss)+' DELAY  '+str(delay)+"\n\n\n")
+    print('\n\n\n //////LOSS : '+str(packet_loss)+' % DELAY  '+str(delay)+" ms\n\n\n")
+    time.sleep(1)
     sender_function(num, qos, topic, iface, length, port, ip)
     res = analyse_function()
     file_res.write(str(packet_loss)+" "+str(delay)+" "+str(res['rtt'])+ " "+str(res['std'])+"\n")
