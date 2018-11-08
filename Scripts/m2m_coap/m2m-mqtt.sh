@@ -14,12 +14,13 @@ case $1 in
 	;;
 	-h)
 	echo "############################ Help #############################"
-	echo "This script is for sending multiple MQTT publish messages to"
+	echo "This script is for sending multiple MQTT publish messages to the subscribers."
+	echo "Run the command 'mosquitto' on the broker. Now run script using the following parameters :"
 	echo "1. MSG TYPE(mqtt_sub or mqtt_pub) "
 	echo "2. BROKER IP ADDRESS "
 	echo "3. Number of messages to be published "
-	echo "bash m2m-mqtt.sh [mqtt_pub] [broker_ip] [number of msg] "
 	echo "bash m2m-mqtt.sh [mqtt_sub] [broker_ip]"
+	echo "bash m2m-mqtt.sh [mqtt_pub] [broker_ip] [number of msg] "
 	echo " "
 	echo "Example: bash m2m-mqtt.sh mqtt_sub 127.0.0.1"
 	echo "Example: bash m2m-mqtt.sh mqtt_pub 127.0.0.1 1"
